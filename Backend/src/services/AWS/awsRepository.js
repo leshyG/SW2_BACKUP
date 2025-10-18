@@ -50,7 +50,11 @@ class AWSRepository extends IStorageRepository {
     });
 
     const { Body } = await this.client.send(command);
-    const dest = fs.createWriteStream(path.resolve(destinationPath, fileName));
+    
+    const destDir = path.dirname(destinationPath);
+    fs.mkdirSync(destDir, { recursive: true });
+    const dest = fs.createWriteStream(destinationPath);
+
     await new Promise((resolve, reject) => {
       Body.pipe(dest);
       Body.on('end', resolve);
