@@ -12,7 +12,9 @@ const upload = multer({ dest: "uploads/" });
 router.post("/:provider/upload", upload.single("file"), async (req, res) => {
   try {
     const { provider } = req.params;
-    const repo = StorageFactory.create(provider, { bucketName: 'giomar-nos-debe-broster' });
+    const { bucket } = req.query;
+
+    const repo = StorageFactory.create(provider, bucket);
     await repo.init();
 
     const folderPath = req.body.path
@@ -67,8 +69,9 @@ router.get("/:provider/list", async (req, res) => {
 router.get("/:provider/download", async (req, res) => {
   try {
     const { provider } = req.params;
-    const { fileName } = req.query;
-    const repo = StorageFactory.create(provider, { bucketName: 'my-bucket' });
+    const { bucket } = req.query;
+
+    const repo = StorageFactory.create(provider, bucket);
     await repo.init();
 
     const destinationPath = path.join("downloads", fileName);
@@ -90,8 +93,10 @@ router.get("/:provider/download", async (req, res) => {
 // DELETE /storage/:provider/delete/:fileName
 router.delete("/:provider/delete/:fileName", async (req, res) => {
   try {
-    const { provider, fileName } = req.params;
-    const repo = StorageFactory.create(provider, { bucketName: 'my-bucket' });
+    const { provider } = req.params;
+    const { bucket } = req.query;
+
+    const repo = StorageFactory.create(provider, bucket);
     await repo.init();
 
     const result = await repo.deleteObject(fileName);
@@ -115,13 +120,15 @@ router.post("/:provider/folder", async (req, res) => {
   try {
     const { provider } = req.params;
     const { folderName } = req.body;
+    const { bucket } = req.query;
+    
     if (!folderName)
       return res.status(400).json({
         success: false,
         message: "El nombre de la carpeta es obligatorio",
       });
 
-    const repo = StorageFactory.create(provider, { bucketName: 'my-bucket' });
+    const repo = StorageFactory.create(provider, bucket);
     await repo.init();
 
     const result = await repo.createFolder(folderName);

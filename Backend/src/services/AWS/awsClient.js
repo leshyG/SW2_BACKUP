@@ -16,18 +16,18 @@ class AmazonClient {
             const sts = new STSClient({ region: this.region || undefined });
             const identity = await sts.send(new GetCallerIdentityCommand({}));
 
-            console.log(`✅ AWS credentials loaded for account ${identity.Account}, user ${identity.Arn}`);
-            console.log(`🌎 Región activa: ${this.region || '(detectada automáticamente)'}`);
+            console.log(`Credenciales AWS verificadas para la cuenta: ${identity.Account}, de usuario: ${identity.Arn}`);
+            console.log(`Región activa: ${this.region || '(detectada automáticamente)'}`);
             return true;
         } catch (err) {
-            console.warn('⚠️ AWS client initialization failed:', err.message);
+            console.warn('Fallo al intentar inicializar el cliente AWS:', err.message);
             this.client = null;
             return false;
         }
     }
 
     getClient() {
-        if (!this.client) throw new Error('AWS S3 client not initialized or unavailable.');
+        if (!this.client) throw new Error('AWS no pudo inicializarse');
         return this.client;
     }
 
