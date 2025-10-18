@@ -12,7 +12,7 @@ const upload = multer({ dest: "uploads/" });
 router.post("/:provider/upload", upload.single("file"), async (req, res) => {
   try {
     const { provider } = req.params;
-    const repo = StorageFactory.create(provider, { bucketName: 'my-bucket' });
+    const repo = StorageFactory.create(provider, { bucketName: 'giomar-nos-debe-broster' });
     await repo.init();
 
     const folderPath = req.body.path
@@ -41,7 +41,10 @@ router.post("/:provider/upload", upload.single("file"), async (req, res) => {
 // GET /storage/:provider/list
 router.get("/:provider/list", async (req, res) => {
   try {
-    const repo = StorageFactory.create(req.params.provider, { bucketName: 'my-bucket' });
+    const { provider } = req.params;
+    const { bucket } = req.query;
+
+    const repo = StorageFactory.create(provider, bucket);
     await repo.init();
     const objects = await repo.listObjects();
 

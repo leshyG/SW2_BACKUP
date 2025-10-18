@@ -1,5 +1,5 @@
-const IStorageRepository = require('./IStorageRepository');
-const AmazonClient = require('./amazonClient');
+const IStorageRepository = require('../IStorageRepository');
+const AmazonClient = require('./awsClient');
 const {
   ListObjectsV2Command,
   GetObjectCommand,
@@ -10,9 +10,10 @@ const fs = require('fs');
 const path = require('path');
 
 class AWSRepository extends IStorageRepository {
-  constructor(region = 'us-east-1', bucketName) {
+  constructor(bucketName) {
     super();
-    this.clientWrapper = new AmazonClient(region);
+    if (!bucketName) throw new Error("Se requiere el nombre del bucket para operar con AWS!");
+    this.clientWrapper = new AmazonClient();
     this.bucketName = bucketName;
     this.client = null;
   }
