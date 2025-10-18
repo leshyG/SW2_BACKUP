@@ -1,0 +1,27 @@
+{
+  "name": "soft2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.896.0",
+    "@azure/storage-blob": "^12.28.0",
+    "@google-cloud/storage": "^7.17.2",
+    "aws-sdk": "^2.1692.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "multer": "^2.0.2",
+    "oci-common": "^2.118.0",
+    "oci-objectstorage": "^2.118.0",
+    "oci-sdk": "^2.119.0"
+  }
+}
